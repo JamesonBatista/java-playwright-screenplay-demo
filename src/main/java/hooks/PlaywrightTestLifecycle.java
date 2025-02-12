@@ -11,7 +11,7 @@ public class PlaywrightTestLifecycle  implements BeforeAllCallback, AfterAllCall
     @Override
     public void   beforeAll(ExtensionContext context){
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
         page = browser.newPage();
     }
     @Override
