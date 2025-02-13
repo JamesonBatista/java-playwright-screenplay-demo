@@ -1,14 +1,14 @@
-import com.microsoft.playwright.*;
 import hooks.PlaywrightTestLifecycle;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import pages.Login;
 
 @ExtendWith(PlaywrightTestLifecycle.class)
-public class TestPlaywright {
+public class TestPlaywright extends PlaywrightTestLifecycle {
     @Test
-    public void initialTest(){
-        Page page = PlaywrightTestLifecycle.getPage();
-        page.navigate("https://jamesonbatista.github.io/projectqatesterweb/index.html");
-        System.out.println(page.title());
+    public void initialTest() throws InterruptedException {
+        actor.attemptsTo(Login.withDefaultCredentials());
+
+        Thread.sleep(3000);
     }
 }

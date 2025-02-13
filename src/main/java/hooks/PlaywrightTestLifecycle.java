@@ -1,24 +1,37 @@
 package hooks;
+
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.extension.*;
+import screen.Actor;
 
-public class PlaywrightTestLifecycle  implements BeforeAllCallback, AfterAllCallback{
+import java.util.List;
 
-    private static Playwright playwright;
-    private static Browser browser;
-    private static Page page;
+import static utils.ConfigManager.getProperty;
+
+public class PlaywrightTestLifecycle implements BeforeAllCallback, AfterAllCallback {
+
+    protected static Playwright playwright;
+    protected static Browser browser;
+    public static Page page;
+    public static Actor actor;
+
+    public static Actor getActor() {
+        return actor;
+    }
 
     @Override
-    public void   beforeAll(ExtensionContext context){
+    public void beforeAll(ExtensionContext context) {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-        page = browser.newPage();
+        page = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false)
+                        .setArgs(List.of("--start-maximized"))).newContext(new Browser.NewContextOptions().setViewportSize(null))
+                .newPage();
+
+        page.navigate(getProperty("baseUrl"));
+        actor = new Actor(page);
     }
+
     @Override
-    public void afterAll(ExtensionContext context){
-        if(playwright != null) playwright.close();
-    }
-    public static Page getPage(){
-        return page;
+    public void afterAll(ExtensionContext context) {
+        if (playwright != null) playwright.close();
     }
 }
