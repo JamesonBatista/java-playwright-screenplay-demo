@@ -15,12 +15,14 @@ public class Actor {
         this.page = page;
     }
 
-    public void attemptsTo(Object... tasks) {
-        for (Object task : tasks) {
-            if (task instanceof Task) {
-                ((Task) task).performAs(this);
+    public void attemptsTo(Object... actions) {
+        for (Object action : actions) {
+            if (action instanceof Task) {
+                ((Task) action).performAs(this);
+            } else if (action instanceof Interactions) {
+                ((Interactions) action).performAs(this);
             } else {
-                throw new IllegalArgumentException("Invalid task provided: " + task);
+                throw new IllegalArgumentException("Invalid action provided: " + action);
             }
         }
     }

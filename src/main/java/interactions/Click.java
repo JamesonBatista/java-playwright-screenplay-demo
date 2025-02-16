@@ -1,9 +1,9 @@
 package interactions;
 
 import screen.Actor;
-import screen.Task;
+import screen.Interactions;
 
-public class Click implements Task {
+public class Click implements Interactions {
     private final String selector;
 
     private Click(String selector) {

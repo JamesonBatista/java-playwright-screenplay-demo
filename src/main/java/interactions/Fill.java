@@ -1,13 +1,14 @@
 package interactions;
 
 import screen.Actor;
+import screen.Interactions;
 import screen.Task;
 
-public class Fill implements Task {
+public class Fill implements Interactions {
     private final String selector;
     private final String value;
 
-    private Fill(String selector, String value) {
+    public Fill(String selector, String value) {
         this.selector = selector;
         this.value = value;
     }

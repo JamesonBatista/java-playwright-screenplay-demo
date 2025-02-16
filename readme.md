@@ -1,51 +1,153 @@
-# 🚀 Automação de Testes Web com Java, Playwright e Screenplay Pattern
+# Playwright Screenplay Framework
 
-Recentemente, desenvolvi um projeto de **automação de testes web** utilizando **Java**, **Playwright** e a abordagem **Screenplay Pattern**. O objetivo principal foi construir uma estrutura escalável, reutilizável e fácil de manter para quem trabalha com automação web.
+Este projeto é um exemplo de automação de testes utilizando **Java**, **Playwright** e o modelo **Screenplay**. O objetivo é fornecer uma estrutura robusta, reutilizável e fácil de manter para testes de interface web.
 
----
-
-## 🎯 Desafios e Soluções
-- Adotei o **padrão Screenplay**, organizando o projeto em **atores, tarefas e interações**, o que trouxe mais clareza e extensibilidade ao código.
-- Utilizei **Playwright para Java**, garantindo testes rápidos e precisos em múltiplos navegadores.
-- Centralizei as configurações no arquivo **`config.properties`**, facilitando a parametrização de URLs, timeouts e modos de execução (headless ou não).
-
----
-
-## 📂 Estrutura do Projeto
-- **`hooks`**: Gerenciamento do ciclo de vida do Playwright.
-- **`actors`**: Definição dos atores que realizam ações nos testes.
-- **`tasks`**: Ações maiores, como navegar para uma URL específica.
-- **`interactions`**: Ações específicas, como clicar em botões e preencher campos.
-- **`questions`**: Perguntas para validar informações, como o título da página.
+## 🚀 Tecnologias Utilizadas
+- **Java 17**
+- **Playwright**
+- **JUnit 5**
+- **ExtentReports** para relatórios
+- **Modelo Screenplay**
 
 ---
 
-## 🛠️ Exemplo de Código com Screenplay
-```java
-Actor testActor = new Actor();
+## 📋 Requisitos
+Antes de começar, você precisa ter instalado:
+- **Java 17**
+- **Maven**
+- **Node.js** (para o Playwright)
+- Navegadores compatíveis com o Playwright
 
-// Preencher um campo de texto
-testActor.attemptsTo(Fill.field("#name", "Jameson"));
+---
 
-// Clicar em um botão
-testActor.attemptsTo(Click.on("#submit"));
+## 🔧 Instalação
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   ```
+2. Navegue até a pasta do projeto:
+   ```bash
+   cd seu-repositorio
+   ```
+
+3. Compile o projeto com Maven:
+   ```bash
+   mvn clean install
+   ```
+---
+4. Execute o código com handless true e gere relatório
+
+   ```bash
+    mvn  clean compile
+   ```
+
+   ```bash
+    mvn test
+   ```
+   
+   ```bash
+   open target/ExtentReport.html
+   ```
+
+   ```bash
+   mvn test && open target/ExtentReport.html
+   ```
+   
+`Execute com headless no modo true`
+
+```bash
+mvn test -DsetHeadless=true
+```
+```bash
+mvn test -DsetHeadless=true && open target/ExtentReport.html
+
 ```
 
+
+## 📂 Estrutura do Projeto
+```
+├── hooks
+│   └── PlaywrightTestLifecycle.java   # Gerencia o ciclo de vida do Playwright
+├── interactions
+│   ├── Click.java                    # Task para clicar em um elemento
+│   ├── Fill.java                     # Task para preencher um campo
+│   └── NavigateTo.java               # Task para navegar até uma URL
+├── listeners
+│   └── ExtentReportListener.java     # Gera relatórios detalhados
+├── pages
+│   └── Login.java                    # Task para executar o login
+├── screen
+│   ├── Actor.java                    # Representa o ator no modelo Screenplay
+│   ├── Task.java                     # Interface para definir Tasks
+│   └── Question.java                 # Métodos para consulta de informações na página
+├── utils
+│   └── ConfigManager.java            # Gerencia as configurações do projeto
+└── config.properties                  # Arquivo de configuração
+```
 ---
 
-## ✨ Benefícios do Projeto
-- Código mais legível e próximo da linguagem natural.
-- Redução significativa de código repetido.
-- Organização modular e escalável, pronta para crescer junto com as necessidades do projeto.
+## ▶️ Como Executar os Testes
+
+1. Compile o projeto:
+   ```bash
+   mvn clean compile
+   ```
+2. Execute os testes:
+   ```bash
+   mvn test
+   ```
+3. Após a execução, o relatório estará disponível em `target/ExtentReport.html`.
+---
+
+## 📊 Relatórios
+Este projeto utiliza **ExtentReports** para gerar relatórios detalhados.
+- O relatório será gerado automaticamente após a execução dos testes.
+- Você pode encontrá-lo em: `target/ExtentReport.html`
+- Exemplo de relatório:
+  ![Exemplo de Relatório](https://i.imgur.com/example.png)
+---
+
+## 🛠 Configuração
+O arquivo `config.properties` contém as configurações principais:
+```properties
+baseUrl=https://jamesonbatista.github.io/projectqatesterweb/index.html
+setHeadless=true
+```
+### Alterando Configurações
+- **baseUrl**: URL base da aplicação a ser testada.
+- **setHeadless**: Define se o navegador será executado em modo headless (`true` ou `false`).
 
 ---
 
-## 🔗 Referências
-- [Playwright para Java](https://playwright.dev/java/docs/intro)
-- [JUnit 5](https://junit.org/junit5/docs/current/user-guide/)
-- [Screenplay Pattern](https://serenity-bdd.github.io/theserenitybook/latest/screenplay-tutorial.html)
+## 💡 Exemplos de Uso
+### Exemplo de Login:
+```java
+Actor test = new Actor(page);
+test.attemptsTo(
+        NavigateTo.theUrl("https://example.com/login"),
+    Login.withDefaultCredentials()
+);
+```
+### Verificação de Texto:
+```java
+String message = Question.text(test, "#message");
+System.out.println("Mensagem exibida: " + message);
+```
+---
+
+## 🔄 Personalização
+Você pode adicionar novas Tasks e Questions seguindo o padrão existente:
+- **Task**: Implementa a interface `Task` e define a ação a ser realizada.
+- **Question**: Fornece consultas específicas sobre o estado da página.
 
 ---
 
-Se quiser mais detalhes, confira o repositório completo no GitHub! 😊
+## 📝 Contribuindo
+Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir issues e enviar pull requests.
 
+---
+
+## 📄 Licença
+Este projeto está sob a licença MIT. Consulte o arquivo LICENSE para mais informações.
+
+---
